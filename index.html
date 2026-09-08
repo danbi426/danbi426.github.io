@@ -1,0 +1,1926 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>💖 단비 & 성우 마스터 보드 V5 (통합본)</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+    
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --danger: #dc2626;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --rose: #e11d48;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      padding-bottom: 120px;
+      transition: background 0.3s;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      min-height: 100vh;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .container { max-width: 850px; margin: 0 auto; padding: 12px; }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: 0 4px 12px -2px rgba(0,0,0,0.05);
+      margin-bottom: 16px;
+    }
+
+    .header {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 2px solid #f1f5f9;
+      padding-bottom: 16px;
+      margin-bottom: 16px;
+    }
+    @media (min-width: 768px) { .header { flex-direction: row; } }
+
+    .nav-tabs { display: flex; gap: 6px; flex-wrap: wrap; width: 100%; justify-content: flex-start; }
+    
+    .btn {
+      padding: 9px 14px;
+      border-radius: 10px;
+      border: 1px solid #cbd5e1;
+      background: #ffffff;
+      color: #475569;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 13px;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+    .btn:hover { background: #f1f5f9; }
+    .btn:active { transform: scale(0.97); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-active { background: #1e293b !important; color: #ffffff !important; border-color: #1e293b !important; }
+    .btn-rose { border-color: var(--rose); color: var(--rose); }
+    .btn-rose:hover { background: #fff1f2; }
+    .btn-primary { background: var(--primary); color: white; border-color: var(--primary); }
+    .btn-primary:hover { background: var(--primary-dark); }
+    .btn-danger { background: var(--danger); color: white; border-color: var(--danger); }
+    .btn-success { background: var(--success); color: white; border-color: var(--success); }
+    .btn-warning { background: var(--warning); color: white; border-color: var(--warning); }
+    .btn-sm { padding: 5px 10px; font-size: 12px; border-radius: 6px; }
+
+    .flex-row-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 14px;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 8px;
+      font-size: 13px;
+      gap: 10px;
+    }
+
+    .hidden { display: none !important; }
+    .grid-2 { display: grid; grid-template-columns: 1fr; gap: 16px; }
+    @media (min-width: 640px) { .grid-2 { grid-template-columns: 1fr 1fr; } }
+    .grid-ledger { display: grid; grid-template-columns: 1fr; gap: 16px; }
+    @media (min-width: 768px) { .grid-ledger { grid-template-columns: 1.4fr 1fr; } }
+    
+    input, select, button, textarea {
+      -webkit-appearance: none;
+      appearance: none;
+      font-family: inherit;
+    }
+    input[type="text"], input[type="password"], input[type="number"], input[type="date"], input[type="datetime-local"], input[type="url"], select, textarea { 
+      border: 1px solid #cbd5e1; 
+      padding: 10px 12px; 
+      border-radius: 8px; 
+      font-size: 14px; 
+      color: var(--text); 
+      background-color: #ffffff;
+      outline: none;
+      width: 100%;
+    }
+    input:disabled, select:disabled, textarea:disabled {
+      background-color: #f1f5f9;
+      cursor: not-allowed;
+    }
+    input:focus, select:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
+
+    .footer-bar {
+      position: fixed;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 24px);
+      max-width: 820px;
+      background: #0f172a;
+      color: white;
+      padding: 12px 18px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3);
+      border: 1px solid #334155;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 900;
+    }
+    .dot { width: 8px; height: 8px; background-color: #34d399; border-radius: 50%; display: inline-block; }
+    .theme-dots { display: flex; gap: 6px; margin-left: 8px; border-left: 1px solid #cbd5e1; padding-left: 8px; }
+    .t-dot { width: 20px; height: 20px; border-radius: 50%; border: 2px solid #ffffff; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    
+    .ledger-badge { font-size: 11px; padding: 2px 6px; border-radius: 4px; font-weight: bold; color: white; display: inline-block; }
+    .badge-in { background-color: #059669; }
+    .badge-out { background-color: var(--danger); }
+    .badge-shop { background-color: #d97706; }
+
+    .debt-box {
+      background: #fff1f2;
+      border: 2px dashed #f43f5e;
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 16px;
+      color: #9f1239;
+    }
+    .countdown-box {
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px dashed #fca5a5;
+      font-weight: 800;
+      font-size: 0.9rem;
+      color: var(--danger);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .quest-section-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: #334155;
+      margin-top: 12px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .empty-state {
+      font-size: 13px;
+      color: #94a3b8;
+      text-align: center;
+      padding: 16px;
+      background: #f8fafc;
+      border-radius: 8px;
+      border: 1px dashed #e2e8f0;
+    }
+
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal-content {
+      background: white;
+      padding: 24px;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 380px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+    .status-badge { font-size: 11px; padding: 3px 8px; border-radius: 12px; font-weight: bold; }
+    .status-pending { background: #fef3c7; color: #b45309; }
+    .status-approved { background: #d1fae5; color: #047857; }
+    .status-rejected { background: #fee2e2; color: #b91c1c; }
+
+    .date-control-bar {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 12px;
+      padding: 10px 12px;
+      margin-top: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body id="m-body">
+
+  <!-- ================= 1. 로그인 화면 ================= -->
+  <div id="auth-screen" style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; display: flex; align-items: center; justify-content: center; background: #0f172a; padding: 16px; z-index: 3000;">
+    <div style="background: #ffffff; padding: 28px 24px; border-radius: 20px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.3); width: 100%; max-width: 380px; color: #1e293b;">
+      <h2 style="text-align: center; font-size: 20px; font-weight: 900; margin-bottom: 6px;">🔒 계정 로그인</h2>
+      <p style="text-align: center; font-size: 12px; color: #64748b; margin-bottom: 20px;">접속할 계정을 선택하고 비밀번호를 입력하세요.<br>(첫 진입 시 입력한 암호가 자동 설정됩니다)</p>
+
+      <div style="display: flex; flex-direction: column; gap: 14px;">
+        <div>
+          <label style="font-size: 12px; font-weight: bold; color: #475569; display: block; margin-bottom: 4px;">사용자 선택</label>
+          <select id="login-user-select" style="font-weight: bold;">
+            <option value="성우">성우 계정</option>
+            <option value="단비">단비 계정 (관리자)</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size: 12px; font-weight: bold; color: #475569; display: block; margin-bottom: 4px;">비밀번호</label>
+          <input type="password" id="login-password" placeholder="비밀번호 입력" style="font-weight: bold;" onkeydown="if(event.key==='Enter') doLogin()" />
+        </div>
+        <button onclick="doLogin()" class="btn btn-primary" style="padding: 12px; font-size: 15px; margin-top: 6px;">로그인 / 입장</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= 2. 메인 대시보드 화면 ================= -->
+  <div id="main-screen" class="hidden container">
+    <header class="header card">
+      <div style="display: flex; flex-direction: column; gap: 10px; width: 100%;">
+        <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+          <h1 style="font-size: 18px; font-weight: 900; color: #1e293b;">💖 MASTER BOARD V5</h1>
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <span id="u-badge" style="font-weight: 900; color: #db2777; background: #fdf2f8; padding: 4px 8px; border-radius: 8px; border: 1px solid #fbcfe8; font-size: 12px;"></span>
+            <button onclick="logout()" style="font-size: 12px; color: #94a3b8; border: none; background: none; cursor: pointer; font-weight: bold;">로그아웃</button>
+          </div>
+        </div>
+        
+        <div class="nav-tabs">
+          <button onclick="swMenu('quest')" id="b-quest" class="btn btn-active">🎯 퀘스트</button>
+          <button onclick="swMenu('ledger')" id="b-ledger" class="btn">💳 가계부</button>
+          <button onclick="swMenu('shop')" id="b-shop" class="btn">🛒 상점</button>
+          <button onclick="swMenu('reservation')" id="b-reservation" class="btn">📅 예약</button>
+          <button onclick="swMenu('mypage')" id="b-mypage" class="btn">👤 마이페이지</button>
+          <button onclick="switchAdminMenu()" id="b-admin" class="btn btn-rose">⚙️ 설정실</button>
+        </div>
+
+        <!-- 단비 기준일 및 현재 조회일 컨트롤러 (통합 기능) -->
+        <div class="date-control-bar">
+          <div style="display: flex; justify-content: space-between; align-items: center; color: #1e40af; font-weight: bold;">
+            <span>📌 단비 설정 기준일: <span id="danbi-ref-date-display" style="text-decoration: underline;">-</span></span>
+            <span id="current-view-display" style="color: #2563eb;"></span>
+          </div>
+
+          <!-- 단비 전용: 기준일 수정 -->
+          <div id="danbi-date-control" style="display: flex; align-items: center; gap: 6px;">
+            <label style="font-weight: bold; white-space: nowrap;">단비 기준일 변경:</label>
+            <input type="date" id="danbi-date-input" onchange="changeDanbiDate(this.value)" style="padding: 3px 6px; font-size: 12px;" />
+          </div>
+
+          <!-- 조회 날짜 변경 & 단비 날짜 이동 버튼 -->
+          <div style="display: flex; gap: 6px; align-items: center;">
+            <input type="date" id="sys-dt" onchange="chDate()" style="padding: 4px 6px; font-size: 12px;" />
+            <button onclick="goToDanbiDate()" class="btn btn-sm btn-primary" style="white-space: nowrap;">단비 설정 날짜로 이동</button>
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; align-items: center; justify-content: flex-end; width: 100%; border-top: 1px solid #f1f5f9; padding-top: 10px; margin-top: 4px; font-size: 12px;">
+        <div style="display: flex; align-items: center; gap: 6px;">
+          <!-- 성우 포인트 수동 수정 (단비 전용 노출) -->
+          <button id="btn-point-modal" class="btn btn-sm" onclick="openPointModal()" style="background:#e0f2fe; color:#0369a1; border-color:#bae6fd;">✏️ 성우 포인트 수동 수정 (단비)</button>
+          <div class="theme-dots">
+            <div onclick="chTheme('slate')" class="t-dot" style="background: #cbd5e1;" title="슬레이트"></div>
+            <div onclick="chTheme('pink')" class="t-dot" style="background: #fbcfe8;" title="핑크"></div>
+            <div onclick="chTheme('dark')" class="t-dot" style="background: #1e293b;" title="다크"></div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <!-- 1) 퀘스트 메뉴 -->
+      <div id="m-quest" class="space-y-4">
+        <!-- 완료/차감/대출 승인 요청 대기열 섹션 -->
+        <section class="card" style="border-color: #fef08a; background: #fefce8;">
+          <h2 style="font-size: 15px; font-weight: 900; color: #854d0e; border-bottom: 2px solid #fef08a; padding-bottom: 8px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
+            <span>📋 승인 요청 목록 (퀘스트/차감/대출)</span>
+            <span id="pending-count" style="background: #eab308; color: white; padding: 2px 8px; border-radius: 12px; font-size: 11px;">0</span>
+          </h2>
+          <div id="approval-list" style="display: flex; flex-direction: column; gap: 8px;"></div>
+        </section>
+
+        <section class="card">
+          <h2 style="font-size: 15px; font-weight: 900; border-bottom: 2px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
+            <span>🎯 미션 및 퀘스트 제어판</span>
+            <span id="tl-dt" style="font-size: 11px; color: #64748b; font-weight: bold; font-family: monospace;"></span>
+          </h2>
+          
+          <div id="q-box" style="display: flex; flex-direction: column; gap: 10px;"></div>
+          
+          <div id="cb-box" style="margin-top: 14px; padding: 10px 14px; background: #fdf2f8; color: #9d174d; border-radius: 12px; font-weight: bold; display: flex; justify-content: space-between; font-size: 12px; border: 1px solid #fbcfe8;"></div>
+        </section>
+
+        <!-- 단비 전용 권한 부여 패널 -->
+        <div id="g-panel" class="hidden">
+          <section class="card" style="border-left: 6px solid #e11d48;">
+            <h2 style="font-size: 15px; font-weight: 900; color: #e11d48; margin-bottom: 4px;">👑 단비 전용 수동 채점 및 콤보 부여</h2>
+            <p style="font-size: 11px; color: #64748b; margin-bottom: 12px;">성우에게 즉시 가산 포인트 및 콤보 보너스를 하사합니다.</p>
+            <div id="g-box" style="display: flex; flex-direction: column; gap: 8px;"></div>
+          </section>
+        </div>
+
+        <!-- 감점 규칙 패널 (단비 승인 필요) -->
+        <section class="card">
+          <h2 style="font-size: 15px; font-weight: 900; color: var(--danger); border-bottom: 2px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 12px;">⚠️ 포인트 차감(패널티) 체크리스트 (성우 체크 시 단비 승인 필요)</h2>
+          <div id="p-box" style="display: flex; flex-direction: column; gap: 8px;"></div>
+        </section>
+      </div>
+
+      <!-- 2) 가계부 & 대출 메뉴 -->
+      <div id="m-ledger" class="hidden grid-ledger">
+        <div>
+          <section class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 12px;">
+              <h2 style="font-size: 15px; font-weight: 900;">📊 가계부 정밀 내역서</h2>
+              <select id="l-filter" onchange="rLedger()" style="padding: 2px 6px; font-size: 12px; width: auto;">
+                <option value="전체">전체 내역</option>
+                <option value="수입">수입만</option>
+                <option value="지출">지출/소비만</option>
+              </select>
+            </div>
+            <div id="l-box" style="display: flex; flex-direction: column; gap: 8px; max-height: 480px; overflow-y: auto;"></div>
+          </section>
+
+          <!-- 단비 전용 지출 영수증 확인 섹션 -->
+          <section id="receipt-section" class="card" style="border-top: 4px solid #9333ea;">
+            <h2 style="font-size: 15px; font-weight: 900; color: #7e22ce; margin-bottom: 10px;">🧾 지출 영수증 기록 (단비 전용)</h2>
+            <div id="receipt-list" style="display: flex; flex-direction: column; gap: 6px;"></div>
+          </section>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+          <!-- 실시간 대출 미상환 현황 -->
+          <div class="debt-box card" style="margin-bottom:0;">
+            <h3 style="font-size: 13px; font-weight: 900; margin-bottom: 6px;">🚨 성우의 실시간 신용 대출 채무액</h3>
+            <div id="loan-status" style="font-size: 22px; font-weight: 900; margin-bottom: 6px; color: #e11d48;">0 p</div>
+            <div id="loan-summary-detail" style="font-size: 11px; line-height: 1.5; color: #475569; background: white; padding: 8px; border-radius: 8px; border: 1px solid #fecdd3;"></div>
+            <div class="countdown-box" id="loan-countdown-display">⏱️ 대출 실행 시 만기 카운트다운 시작</div>
+          </div>
+
+          <!-- 대출 상환 및 신청 위젯 (대출은 단비 승인 필요, 상환은 즉시 가능) -->
+          <section class="card">
+            <h3 style="font-size: 14px; font-weight: 900; margin-bottom: 10px; border-bottom: 1px solid #e2e8f0; padding-bottom: 6px;">🏦 성우 포인트 대출 신청 (단비 승인) 및 상환</h3>
+            <div id="ln-action"></div>
+          </section>
+
+          <!-- 영수증 확정 및 수동 장부 기입 (단비만 가능, 성우 비활성화) -->
+          <section class="card">
+            <h3 style="font-size: 14px; font-weight: 900; margin-bottom: 10px; border-bottom: 1px solid #e2e8f0; padding-bottom: 6px;">💳 영수증 확정 / 수동 장부 기입 <span style="font-size:11px; color:#e11d48; font-weight:normal;">(단비 전용)</span></h3>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <div style="display: flex; gap: 4px;">
+                <button type="button" onclick="setMType('수입')" id="bm-in" class="btn btn-sm btn-active" style="flex:1;">수입</button>
+                <button type="button" onclick="setMType('지출')" id="bm-out" class="btn btn-sm" style="flex:1;">지출</button>
+                <button type="button" onclick="setMType('소비')" id="bm-shop" class="btn btn-sm" style="flex:1;">소비</button>
+              </div>
+              <input type="text" id="m-desc" placeholder="내역 설명 (예: 카페 결제)" />
+              <input type="number" id="m-amt" placeholder="금액/포인트 (원/P)" min="1" />
+              <button id="btn-manual-sub" onclick="subManual()" class="btn btn-primary" style="width: 100%;">영수증 확정 및 저장</button>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <!-- 3) 상점 메뉴 -->
+      <div id="m-shop" class="hidden">
+        <section class="card">
+          <h2 style="font-size: 15px; font-weight: 900; border-bottom: 2px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 14px;">🛒 포인트 상점 마켓</h2>
+          <div id="s-box" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px;"></div>
+        </section>
+      </div>
+
+      <!-- 4) 상품 예약 페이지 (성우 & 단비 공용) -->
+      <div id="m-reservation" class="hidden">
+        <section class="card">
+          <h2 style="font-size: 15px; font-weight: 900; border-bottom: 2px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 12px;">📅 상품 예약 및 신청</h2>
+          <div style="display: flex; flex-direction: column; gap: 10px; background: #f8fafc; padding: 14px; border-radius: 12px; border: 1px solid #e2e8f0; margin-bottom: 16px;">
+            <div>
+              <label style="font-size: 12px; font-weight: bold; color: #475569; display: block; margin-bottom: 4px;">예약할 상품 선택</label>
+              <select id="res-item-select" onchange="updateResOptions()"></select>
+            </div>
+            <div>
+              <label style="font-size: 12px; font-weight: bold; color: #475569; display: block; margin-bottom: 4px;">옵션 선택</label>
+              <select id="res-option-select"></select>
+            </div>
+            <div>
+              <label style="font-size: 12px; font-weight: bold; color: #475569; display: block; margin-bottom: 4px;">예약 / 구매 사유 (이유)</label>
+              <textarea id="res-reason" rows="2" placeholder="예약을 신청하는 이유나 전달사항을 적어주세요."></textarea>
+            </div>
+            <button onclick="submitReservation()" class="btn btn-primary" style="width: 100%;">예약 신청서 제출</button>
+          </div>
+
+          <h3 style="font-size: 14px; font-weight: bold; margin-bottom: 10px; color: #334155;">📋 예약 신청 처리 현황</h3>
+          <div id="res-list-box" style="display: flex; flex-direction: column; gap: 8px;"></div>
+        </section>
+      </div>
+
+      <!-- 5) 마이페이지 (성우 비밀번호 변경 및 관리) -->
+      <div id="m-mypage" class="hidden">
+        <section class="card">
+          <h2 style="font-size: 15px; font-weight: 900; border-bottom: 2px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 14px;">👤 마이페이지</h2>
+          
+          <div style="background: #f8fafc; padding: 14px; border-radius: 12px; border: 1px solid #e2e8f0; margin-bottom: 16px;">
+            <h3 style="font-size: 13px; font-weight: bold; margin-bottom: 8px;">🔑 내 비밀번호 변경</h3>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <input type="password" id="my-new-pw" placeholder="새로운 비밀번호 입력" />
+              <button onclick="changeMyPassword()" class="btn btn-primary">비밀번호 변경 저장</button>
+            </div>
+          </div>
+
+          <div id="admin-sw-pw-box" class="hidden" style="background: #fff1f2; padding: 14px; border-radius: 12px; border: 1px solid #fecdd3;">
+            <h3 style="font-size: 13px; font-weight: bold; color: #9f1239; margin-bottom: 4px;">👑 [단비 전용] 성우 비밀번호 조회 및 변경</h3>
+            <p style="font-size: 11px; color: #be123c; margin-bottom: 8px;">현재 성우 비밀번호: <strong id="sw-current-pw-display" style="font-size: 13px; text-decoration: underline;"></strong></p>
+            <div style="display: flex; gap: 8px;">
+              <input type="text" id="sw-new-pw-input" placeholder="성우 새 비밀번호 입력" style="flex:1;" />
+              <button onclick="changeSeongwooPasswordByAdmin()" class="btn btn-rose">수정 완료</button>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- 6) 단비 전용 설정실 메뉴 -->
+      <div id="m-admin" class="hidden space-y-4">
+        <section class="card" style="border-top: 4px solid var(--rose);">
+          <h2 style="font-size: 16px; font-weight: 900; color: var(--rose); margin-bottom: 14px;">⚙️ 단비 전용 중앙 통제 설정실</h2>
+          
+          <div class="grid-2">
+            <div style="background: #f8fafc; padding: 14px; border-radius: 12px; border: 1px solid #e2e8f0;">
+              <h3 style="font-size: 13px; font-weight: bold; margin-bottom: 8px;">➕ 퀘스트 신규 개설</h3>
+              <div style="display: flex; flex-direction: column; gap: 8px;">
+                <select id="ad-q-type">
+                  <option value="daily">일일 퀘스트 (고정)</option>
+                  <option value="weekly">주간 퀘스트</option>
+                  <option value="special">특별 퀘스트</option>
+                </select>
+                <input type="text" id="ad-q-text" placeholder="퀘스트 내용" />
+                <input type="number" id="ad-q-pts" placeholder="지급 포인트" value="10" />
+                <div>
+                  <label style="font-size: 11px; font-weight: bold; color: #64748b;">퀘스트 기한 (만료 후 자동 삭제):</label>
+                  <input type="date" id="ad-q-deadline" />
+                </div>
+                <button onclick="addQ()" class="btn btn-primary">퀘스트 정식 등록</button>
+              </div>
+            </div>
+
+            <div style="background: #f8fafc; padding: 14px; border-radius: 12px; border: 1px solid #e2e8f0;">
+              <h3 style="font-size: 13px; font-weight: bold; margin-bottom: 8px;">➕ 단비 수동 채점 보상 등록</h3>
+              <div style="display: flex; flex-direction: column; gap: 8px;">
+                <input type="text" id="ad-c-text" placeholder="칭찬/보상 항목 이름" />
+                <input type="number" id="ad-c-pts" placeholder="부여 포인트" value="5" />
+                <button onclick="addC()" class="btn btn-rose">보상 항목 개설</button>
+              </div>
+            </div>
+
+            <div style="background: #f8fafc; padding: 14px; border-radius: 12px; border: 1px solid #e2e8f0;">
+              <h3 style="font-size: 13px; font-weight: bold; margin-bottom: 8px;">➕ 상점 상품 및 옵션 등록</h3>
+              <div style="display: flex; flex-direction: column; gap: 8px;">
+                <input type="text" id="ad-s-name" placeholder="상품명" />
+                <input type="number" id="ad-s-price" placeholder="가격(포인트)" value="50" />
+                <input type="text" id="ad-s-opts" placeholder="옵션 (쉼표 구분 예: 기본, 곱배기)" />
+                <button onclick="addS()" class="btn btn-primary">상품 출시</button>
+              </div>
+            </div>
+
+            <div style="background: #f8fafc; padding: 14px; border-radius: 12px; border: 1px solid #e2e8f0;">
+              <h3 style="font-size: 13px; font-weight: bold; margin-bottom: 8px;">➕ 감점(패널티) 규칙 등록</h3>
+              <div style="display: flex; flex-direction: column; gap: 8px;">
+                <input type="text" id="ad-p-name" placeholder="벌칙/위반 행동 이름" />
+                <input type="number" id="ad-p-price" placeholder="차감 포인트" value="5" />
+                <button onclick="addP()" class="btn btn-danger">감점 조항 신설</button>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top: 16px; padding: 14px; background: #f1f5f9; border-radius: 12px;">
+            <h3 style="font-size: 13px; font-weight: bold; margin-bottom: 6px;">🖼️ 실시간 대시보드 배경 이미지 설정</h3>
+            <div style="display: flex; gap: 6px;">
+              <input type="url" id="ad-bg-url" placeholder="이미지 주소 (URL) 입력" style="flex: 1;" />
+              <button onclick="appBg()" class="btn btn-primary">적용</button>
+              <button onclick="clrBg()" class="btn">초기화</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="card">
+          <h3 style="font-size: 15px; font-weight: 900; margin-bottom: 12px;">🗑️ 등록된 항목 삭제 및 통제</h3>
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <div>
+              <h4 style="font-size: 12px; font-weight: bold; color: #64748b; margin-bottom: 4px;">[퀘스트 목록]</h4>
+              <div id="ad-q-list" style="display: flex; flex-direction: column; gap: 4px;"></div>
+            </div>
+            <div>
+              <h4 style="font-size: 12px; font-weight: bold; color: #64748b; margin-bottom: 4px;">[수동 보상 목록]</h4>
+              <div id="ad-c-list" style="display: flex; flex-direction: column; gap: 4px;"></div>
+            </div>
+            <div>
+              <h4 style="font-size: 12px; font-weight: bold; color: #64748b; margin-bottom: 4px;">[상점 상품 목록]</h4>
+              <div id="ad-s-list" style="display: flex; flex-direction: column; gap: 4px;"></div>
+            </div>
+            <div>
+              <h4 style="font-size: 12px; font-weight: bold; color: #64748b; margin-bottom: 4px;">[감점 규칙 목록]</h4>
+              <div id="ad-p-list" style="display: flex; flex-direction: column; gap: 4px;"></div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <!-- ================= 3. 성우 포인트 수동 수정 모달 (단비 전용) ================= -->
+  <div class="modal-overlay" id="pointModal">
+    <div class="modal-content">
+      <div style="font-weight: 800; font-size: 1rem; margin-bottom: 10px; color: var(--text);">✏️ 성우 포인트 잔고 수동 수정 (단비 전용)</div>
+      <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 12px;">성우 계정의 포인트를 직접 조정합니다.</p>
+
+      <div style="margin-bottom: 14px;">
+        <label for="newPointInput" style="display: block; font-size: 0.8rem; font-weight: 600; color: var(--text-muted); margin-bottom: 4px;">변경할 포인트 금액</label>
+        <input type="number" id="newPointInput" placeholder="예: 50000">
+      </div>
+      <div style="display: flex; gap: 6px;">
+        <button class="btn" onclick="closePointModal()" style="flex: 1;">취소</button>
+        <button class="btn btn-primary" onclick="saveCustomPoints()" style="flex: 1;">저장하기</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= 4. 하단 고정 포인트 표시 바 ================= -->
+  <div class="footer-bar" id="f-bar">
+    <div style="display: flex; align-items: center; gap: 6px;">
+      <span class="dot"></span>
+      <span style="font-size: 11px; color: #94a3b8; font-weight: bold;">성우의 포인트 계좌:</span>
+    </div>
+    <span id="f-pts" style="font-size: 16px; font-weight: 900; color: #38bdf8;">0 p</span>
+  </div>
+
+  <script>
+    // 단비 계정은 관리용 계정이므로 자체 포인트를 보관하지 않습니다.
+    var users = { "단비": { pw: "" }, "성우": { pw: "", pts: 100 } };
+    var loginUser = "";
+    var menu = "quest";
+    var mType = "수입";
+    var quests = [];
+    var combos = [];
+    var shopItems = [];
+    var penalties = [];
+    var ledger = [];
+    var reservations = [];
+    var pendingApprovals = []; 
+    var questCompletions = {};
+    var penaltyCompletions = {};
+    var loans = {
+      "성우": { isActive: false, amount: 0, paid: 0, startWeek: 0, startDate: "", dueTimestamp: 0 }
+    };
+    var lastAllowanceWeek = 0;
+    var selectedDate = new Date().toISOString().substring(0, 10);
+    var danbiDate = new Date().toISOString().substring(0, 10);
+    var comboCount = { "성우": 0 };
+    var cBg = "";
+
+    function loadD() {
+      try {
+        var getVal = function(k, df) {
+          var val = localStorage.getItem("mb_v5_" + k);
+          return val ? JSON.parse(val) : df;
+        };
+        users = getVal("users", users);
+        loginUser = localStorage.getItem("mb_v5_user") || "";
+        quests = getVal("quests", []);
+        combos = getVal("combos", []);
+        shopItems = getVal("shopItems", []);
+        penalties = getVal("penalties", []);
+        ledger = getVal("ledger", []);
+        reservations = getVal("reservations", []);
+        pendingApprovals = getVal("pendingApprovals", []);
+        questCompletions = getVal("questCompletions", {});
+        penaltyCompletions = getVal("penaltyCompletions", {});
+        loans = getVal("loans", loans);
+        lastAllowanceWeek = Number(localStorage.getItem("mb_v5_law") || "0");
+        comboCount = getVal("comboCount", { "성우": 0 });
+        cBg = localStorage.getItem("mb_v5_bg") || "";
+        danbiDate = localStorage.getItem("mb_v5_danbi_dt") || new Date().toISOString().substring(0, 10);
+        
+        if (localStorage.getItem("mb_v5_dt")) {
+          selectedDate = localStorage.getItem("mb_v5_dt");
+        }
+        
+        var dtInput = document.getElementById("sys-dt");
+        if (dtInput) dtInput.value = selectedDate;
+        
+        var danbiDtInput = document.getElementById("danbi-date-input");
+        if (danbiDtInput) danbiDtInput.value = danbiDate;
+
+        if (cBg) document.body.style.backgroundImage = "url('" + cBg + "')";
+      } catch (e) {
+        console.error("데이터 로드 오류", e);
+      }
+    }
+
+    function saveD() {
+      try {
+        var saveVal = function(k, v) { localStorage.setItem("mb_v5_" + k, JSON.stringify(v)); };
+        saveVal("users", users);
+        localStorage.setItem("mb_v5_user", loginUser);
+        saveVal("quests", quests);
+        saveVal("combos", combos);
+        saveVal("shopItems", shopItems);
+        saveVal("penalties", penalties);
+        saveVal("ledger", ledger);
+        saveVal("reservations", reservations);
+        saveVal("pendingApprovals", pendingApprovals);
+        saveVal("questCompletions", questCompletions);
+        saveVal("penaltyCompletions", penaltyCompletions);
+        saveVal("loans", loans);
+        localStorage.setItem("mb_v5_law", lastAllowanceWeek.toString());
+        saveVal("comboCount", comboCount);
+        localStorage.setItem("mb_v5_dt", selectedDate);
+        localStorage.setItem("mb_v5_danbi_dt", danbiDate);
+        localStorage.setItem("mb_v5_bg", cBg);
+      } catch (e) {
+        console.error("데이터 저장 오류", e);
+      }
+    }
+
+    function getWk(dStr) {
+      var d = new Date(dStr);
+      d.setHours(0,0,0,0);
+      d.setDate(d.getDate() + 4 - (d.getDay() || 7));
+      var yearStart = new Date(d.getFullYear(), 0, 1);
+      return Math.ceil((((d.getTime() - yearStart.getTime()) / 86400000) + 1) / 7);
+    }
+
+    // 주간 정기 포인트 지급은 성우 계정에만 지급됩니다.
+    function checkSch() {
+      var currentWeek = getWk(selectedDate);
+      if (lastAllowanceWeek === 0) {
+        lastAllowanceWeek = currentWeek;
+        saveD();
+        return;
+      }
+      
+      if (currentWeek > lastAllowanceWeek) {
+        var weeksDiff = currentWeek - lastAllowanceWeek;
+        for (var w = 0; w < weeksDiff; w++) {
+          var u = "성우";
+          if (!users[u]) users[u] = { pw: "", pts: 100 };
+          var before = users[u].pts || 0;
+          var change = 10;
+          var after = before + change;
+          users[u].pts = after;
+          ledger.unshift({
+            id: 'SYS_ALLOW_' + Date.now() + '_' + u + '_' + w,
+            date: selectedDate,
+            user: u,
+            category: "수입",
+            desc: "[정기 지급] 월요일 주간 고정 포인트 (+10p)",
+            before: before,
+            change: change,
+            after: after
+          });
+        }
+        lastAllowanceWeek = currentWeek;
+        saveD();
+      }
+
+      // 대출 만기 연체 체크 (성우 계정 대상)
+      if (loans["성우"] && loans["성우"].isActive) {
+        var l = loans["성우"];
+        var now = new Date(selectedDate).getTime();
+        if (now > l.dueTimestamp) {
+          var u = "성우";
+          var before = users[u] ? users[u].pts : 0;
+          var penaltyAmt = 50;
+          var after = before - penaltyAmt;
+          if (users[u]) users[u].pts = after;
+          
+          ledger.unshift({
+            id: 'SYS_LOAN_PENALTY_' + Date.now() + '_' + u,
+            date: selectedDate,
+            user: u,
+            category: "지출",
+            desc: "🚨 [대출 연체] 약정 기한 내 미상환 강제 패널티 (-50p)",
+            before: before,
+            change: penaltyAmt,
+            after: after
+          });
+          
+          loans[u] = { isActive: false, amount: 0, paid: 0, startWeek: 0, startDate: "", dueTimestamp: 0 };
+          saveD();
+          alert("🚨 [성우] 님의 대출 만기 기한이 지나 패널티 -50포인트가 차감되었습니다.");
+        }
+      }
+
+      rAll();
+    }
+
+    function addLedgerEntry(u, cat, desc, amt) {
+      // 포인트 기록 대상은 항상 성우 계정으로 고정됩니다.
+      var targetUser = "성우";
+      if (!users[targetUser]) users[targetUser] = { pw: "", pts: 0 };
+      var before = users[targetUser].pts || 0;
+      var change = amt;
+      var after = (cat === "수입") ? (before + change) : (before - change);
+      users[targetUser].pts = after;
+      
+      var entryId = 'TX_' + Date.now() + '_' + Math.floor(Math.random()*1000);
+      ledger.unshift({
+        id: entryId,
+        date: selectedDate,
+        user: u || targetUser,
+        category: cat,
+        desc: desc,
+        before: before,
+        change: change,
+        after: after
+      });
+      saveD();
+      uFooter();
+      return entryId;
+    }
+
+    // 가계부 정밀 내역서 삭제 함수 (단비 전용)
+    function deleteLedgerEntry(id) {
+      if (loginUser !== "단비") {
+        alert("🔒 가계부 내역 삭제 권한은 단비 계정만 가지고 있습니다.");
+        return;
+      }
+      if (!confirm("해당 가계부 내역을 삭제하시겠습니까?")) return;
+      ledger = ledger.filter(function(l) { return l.id !== id; });
+      saveD();
+      rAll();
+      alert("가계부 내역이 삭제되었습니다.");
+    }
+
+    function doLogin() {
+      var u = document.getElementById("login-user-select").value;
+      var pw = document.getElementById("login-password").value.trim();
+
+      if (!pw) {
+        alert("비밀번호를 입력해 주세요!");
+        return;
+      }
+
+      if (!users[u]) {
+        users[u] = (u === "성우") ? { pw: pw, pts: 100 } : { pw: pw };
+      }
+
+      if (users[u].pw === "") {
+        users[u].pw = pw;
+        loginUser = u;
+        saveD();
+        alert(u + " 계정 비밀번호가 처음으로 설정되었습니다.");
+        showDashboard();
+      } else if (users[u].pw === pw) {
+        loginUser = u;
+        saveD();
+        showDashboard();
+      } else {
+        alert("비밀번호가 일치하지 않습니다.");
+      }
+    }
+
+    function logout() {
+      loginUser = "";
+      localStorage.removeItem("mb_v5_user");
+      document.getElementById("login-password").value = "";
+      showLoginPage();
+    }
+
+    function showDashboard() {
+      document.getElementById("auth-screen").style.display = "none";
+      document.getElementById("main-screen").classList.remove("hidden");
+      
+      var swPts = users["성우"] ? users["성우"].pts : 0;
+      if (loginUser === "단비") {
+        document.getElementById("u-badge").innerText = "👤 단비 (성우 포인트: " + swPts.toLocaleString() + "p)";
+      } else {
+        document.getElementById("u-badge").innerText = "👤 " + loginUser;
+      }
+      
+      checkSch();
+      swMenu("quest");
+      uFooter();
+    }
+
+    function showLoginPage() {
+      document.getElementById("auth-screen").style.display = "flex";
+      document.getElementById("main-screen").classList.add("hidden");
+    }
+
+    function swMenu(m) {
+      menu = m;
+      ["quest", "ledger", "shop", "reservation", "mypage", "admin"].forEach(function(x) {
+        var el = document.getElementById("m-" + x);
+        if (el) el.classList.toggle("hidden", x !== m);
+        
+        var btn = document.getElementById("b-" + x);
+        if (btn) {
+          if (x === m) btn.classList.add("btn-active");
+          else btn.classList.remove("btn-active");
+        }
+      });
+      rAll();
+    }
+
+    function switchAdminMenu() {
+      if (loginUser !== "단비") {
+        alert("⚙️ 설정실은 단비 전용 권한입니다!");
+        return;
+      }
+      swMenu("admin");
+    }
+
+    function changeDanbiDate(d) {
+      if (loginUser !== "단비") {
+        alert("단비 계정에서만 변경이 가능합니다.");
+        return;
+      }
+      danbiDate = d;
+      selectedDate = d;
+      document.getElementById("sys-dt").value = d;
+      saveD();
+      rAll();
+    }
+
+    function goToDanbiDate() {
+      selectedDate = danbiDate;
+      document.getElementById("sys-dt").value = danbiDate;
+      saveD();
+      rAll();
+    }
+
+    function changeMyPassword() {
+      var newPw = document.getElementById("my-new-pw").value.trim();
+      if (!newPw) {
+        alert("새 비밀번호를 입력하세요.");
+        return;
+      }
+      users[loginUser].pw = newPw;
+      saveD();
+      document.getElementById("my-new-pw").value = "";
+      alert("비밀번호 변경이 성공적으로 저장되었습니다.");
+    }
+
+    function changeSeongwooPasswordByAdmin() {
+      var newPw = document.getElementById("sw-new-pw-input").value.trim();
+      if (!newPw) {
+        alert("성우의 새 비밀번호를 입력해 주세요.");
+        return;
+      }
+      if (!users["성우"]) users["성우"] = { pw: "", pts: 100 };
+      users["성우"].pw = newPw;
+      saveD();
+      document.getElementById("sw-new-pw-input").value = "";
+      document.getElementById("sw-current-pw-display").innerText = newPw;
+      alert("성우 계정 비밀번호를 성공적으로 변경했습니다.");
+    }
+
+    /* ================= 성우 포인트 수동 수정 (단비 전용) ================= */
+    function openPointModal() {
+      if (loginUser !== "단비") {
+        alert("🔒 포인트 수동 수정은 단비 계정에서만 변경할 수 있습니다.");
+        return;
+      }
+      var swPts = users["성우"] ? users["성우"].pts : 0;
+      document.getElementById('newPointInput').value = swPts;
+      document.getElementById('pointModal').classList.add('active');
+    }
+
+    function closePointModal() {
+      document.getElementById('pointModal').classList.remove('active');
+    }
+
+    function saveCustomPoints() {
+      if (loginUser !== "단비") {
+        alert("🔒 포인트 수동 수정은 단비 계정에서만 처리할 수 있습니다.");
+        return;
+      }
+      var val = parseInt(document.getElementById('newPointInput').value, 10);
+      if (isNaN(val) || val < 0) {
+        alert('올바른 포인트 금액을 입력하세요.');
+        return;
+      }
+      var targetUser = "성우";
+      var before = users[targetUser] ? users[targetUser].pts : 0;
+      if (!users[targetUser]) users[targetUser] = { pw: "", pts: 0 };
+      users[targetUser].pts = val;
+      
+      ledger.unshift({
+        id: 'MOD_' + Date.now(),
+        date: selectedDate,
+        user: targetUser,
+        category: val >= before ? "수입" : "지출",
+        desc: "✏️ [단비 수정] 성우 포인트 수동 조정",
+        before: before,
+        change: Math.abs(val - before),
+        after: val
+      });
+
+      saveD();
+      rAll();
+      closePointModal();
+      alert("성우 계정의 포인트를 " + val.toLocaleString() + "p 로 변경하였습니다.");
+    }
+
+    /* ================= 승인 요청 통합 처리 (퀘스트/차감/대출) ================= */
+    function requestApproval(qId) {
+      var q = quests.find(function(x) { return x.id === qId; });
+      if (!q) return;
+
+      var exists = pendingApprovals.some(function(p) { 
+        return p.questId === qId && p.date === selectedDate && p.user === loginUser; 
+      });
+
+      if (exists) {
+        alert("이미 승인 대기 중인 퀘스트입니다.");
+        return;
+      }
+
+      pendingApprovals.push({
+        id: "APPR_Q_" + Date.now(),
+        type: "quest",
+        questId: q.id,
+        title: q.text,
+        reward: q.points,
+        user: loginUser,
+        date: selectedDate
+      });
+
+      saveD();
+      rQuests();
+      alert("완료 승인 요청을 전송했습니다. 단비의 승인 후 포인트가 지급됩니다!");
+    }
+
+    // 감점(차감) 승인 요청 (성우 계정)
+    function requestPenaltyApproval(pId) {
+      var p = penalties.find(function(x) { return x.id === pId; });
+      if (!p) return;
+
+      var exists = pendingApprovals.some(function(appr) {
+        return appr.penaltyId === pId && appr.date === selectedDate && appr.user === loginUser;
+      });
+
+      if (exists) {
+        alert("이미 차감 승인 대기 중입니다.");
+        return;
+      }
+
+      pendingApprovals.push({
+        id: "APPR_P_" + Date.now(),
+        type: "penalty",
+        penaltyId: p.id,
+        title: "⚠️ 차감: " + p.name,
+        reward: p.price,
+        user: loginUser,
+        date: selectedDate
+      });
+
+      saveD();
+      rQuests();
+      alert("차감 승인 요청이 제출되었습니다. 단비의 승인 후 포인트가 차감됩니다.");
+    }
+
+    // 단비 전용 통합 승인/거절 처리
+    function handleApproval(approvalId, isApproved) {
+      if (loginUser !== "단비") {
+        alert("단비만 승인할 수 있습니다.");
+        return;
+      }
+
+      var idx = pendingApprovals.findIndex(function(p) { return p.id === approvalId; });
+      if (idx === -1) return;
+
+      var appr = pendingApprovals[idx];
+
+      if (isApproved) {
+        if (appr.type === "penalty") {
+          var pAmt = appr.reward || appr.amount;
+          var entryId = addLedgerEntry(appr.user, "지출", "⚠️ [단비 승인] 차감: " + appr.title, pAmt);
+          var key = appr.penaltyId + "_" + appr.date + "_" + appr.user;
+          penaltyCompletions[key] = entryId;
+          alert("[" + appr.user + "] 차감 " + pAmt + "p 승인 완료!");
+        } else if (appr.type === "loan") {
+          var loanAmt = appr.amount || appr.reward;
+          var currentWk = getWk(appr.date);
+          var weeksGranted = Math.max(1, Math.ceil(loanAmt / 100)) * 4;
+          var dueTs = new Date(appr.date).getTime() + (weeksGranted * 7 * 24 * 60 * 60 * 1000);
+
+          loans["성우"] = {
+            isActive: true,
+            amount: loanAmt,
+            paid: 0,
+            startWeek: currentWk,
+            startDate: appr.date,
+            dueTimestamp: dueTs,
+            totalWeeks: weeksGranted
+          };
+
+          addLedgerEntry("성우", "수입", "🏦 [단비 승인] 신용 대출 원금 수령", loanAmt);
+          alert("[성우] 의 " + loanAmt + "p 대출이 승인되었습니다!");
+        } else { // 기본 퀘스트 승인
+          addLedgerEntry(appr.user, "수입", "🎯 [승인] 미션 완료: " + appr.title, appr.reward);
+          var qKey = appr.questId + "_" + appr.date + "_" + appr.user;
+          questCompletions[qKey] = true;
+          alert("[" + appr.user + "] 의 퀘스트 완료가 승인되었습니다!");
+        }
+      } else {
+        alert("[" + appr.user + "] 의 요청을 거절하였습니다.");
+      }
+
+      pendingApprovals.splice(idx, 1);
+      saveD();
+      rAll();
+    }
+
+    function awardManualCombo(cId) {
+      var c = combos.find(function(x) { return x.id === cId; });
+      if (!c) return;
+
+      comboCount["성우"] = (comboCount["성우"] || 0) + 1;
+      addLedgerEntry("성우", "수입", "👑 단비의 하사 보상: " + c.text, c.points);
+      alert("성우에게 [" + c.text + "] (+ " + c.points + "p) 보상이 지급되었습니다!");
+      
+      saveD();
+      rQuests();
+      rLedger();
+    }
+
+    /* ================= 대출 신청 (단비 승인 필요) & 상환 (승인 불필요) ================= */
+    function exLoan() {
+      var amtInput = document.getElementById("loan-input-amount");
+      var amt = Number(amtInput.value);
+
+      if (amt < 10) {
+        alert("대출 최소 신청 금액은 10포인트 이상입니다.");
+        return;
+      }
+
+      var uLoan = loans["성우"];
+      if (uLoan && uLoan.isActive) {
+        alert("이미 실행 중인 대출이 있습니다. 전액 상환 후 다시 이용해 주세요.");
+        return;
+      }
+
+      var existsPending = pendingApprovals.some(function(p) {
+        return p.type === 'loan';
+      });
+      if (existsPending) {
+        alert("이미 대출 승인 대기 중인 요청이 있습니다.");
+        return;
+      }
+
+      if (loginUser === "성우") {
+        pendingApprovals.push({
+          id: "APPR_L_" + Date.now(),
+          type: "loan",
+          amount: amt,
+          reward: amt,
+          user: loginUser,
+          title: "🏦 신용 대출 신청 (" + amt + "p)",
+          date: selectedDate
+        });
+        amtInput.value = "";
+        saveD();
+        rAll();
+        alert("대출 신청서가 제출되었습니다. 단비의 승인 후 대출금이 지급됩니다.");
+        return;
+      }
+
+      // 단비가 직접 실행 승인 시
+      var currentWk = getWk(selectedDate);
+      var weeksGranted = Math.max(1, Math.ceil(amt / 100)) * 4;
+      var dueTs = new Date(selectedDate).getTime() + (weeksGranted * 7 * 24 * 60 * 60 * 1000);
+
+      loans["성우"] = {
+        isActive: true,
+        amount: amt,
+        paid: 0,
+        startWeek: currentWk,
+        startDate: selectedDate,
+        dueTimestamp: dueTs,
+        totalWeeks: weeksGranted
+      };
+
+      addLedgerEntry("성우", "수입", "🏦 신용 대출 원금 수령", amt);
+      amtInput.value = "";
+      saveD();
+      rLoan();
+      rLedger();
+    }
+
+    // 대출 상환 (단비 승인 불필요)
+    function exRepay() {
+      var repayInput = document.getElementById("repay-input-amount");
+      var amt = Number(repayInput.value);
+
+      var uLoan = loans["성우"];
+      if (!uLoan || !uLoan.isActive) return;
+
+      if (amt <= 0) {
+        alert("상환 금액을 정확히 입력하세요.");
+        return;
+      }
+
+      var swPts = users["성우"] ? users["성우"].pts : 0;
+      if (swPts < amt) {
+        alert("성우의 보유 포인트 잔액이 부족합니다.");
+        return;
+      }
+
+      var currentWk = getWk(selectedDate);
+      var elapsedWeeks = Math.max(1, currentWk - uLoan.startWeek);
+      var totalInterest = Math.ceil(uLoan.amount / 10) * 3 * elapsedWeeks;
+      var totalDebt = uLoan.amount + totalInterest;
+      var remainingDebt = totalDebt - uLoan.paid;
+
+      var actualPayment = Math.min(amt, remainingDebt);
+
+      uLoan.paid += actualPayment;
+      addLedgerEntry("성우", "지출", "🏦 대출 원리금 상환", actualPayment);
+
+      if (uLoan.paid >= totalDebt) {
+        loans["성우"] = { isActive: false, amount: 0, paid: 0, startWeek: 0, startDate: "", dueTimestamp: 0 };
+        alert("🎉 대출금이 전액 상환되었습니다!");
+      } else {
+        alert(actualPayment + "p 상환 완료. 남은 채무액: " + (totalDebt - uLoan.paid) + "p");
+      }
+
+      repayInput.value = "";
+      saveD();
+      rLoan();
+      rLedger();
+    }
+
+    function updateCountdowns() {
+      var uLoan = loans["성우"];
+      var cdElem = document.getElementById("loan-countdown-display");
+      if (!cdElem) return;
+
+      if (!uLoan || !uLoan.isActive) {
+        cdElem.innerHTML = "⏱️ 대출 실행 시 만기 실시간 타이머가 시작됩니다.";
+        cdElem.style.color = "var(--text-muted)";
+        return;
+      }
+
+      var now = new Date().getTime();
+      var diff = uLoan.dueTimestamp - now;
+
+      if (diff <= 0) {
+        cdElem.innerHTML = "⚠️ 대출 만기 기한 초과 (연체 발생)";
+        cdElem.style.color = "var(--danger)";
+      } else {
+        var days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        cdElem.innerHTML = `⏳ 상환 잔여 기한: D-${days}일 ${String(hours).padStart(2,'0')}시간 ${String(minutes).padStart(2,'0')}분 ${String(seconds).padStart(2,'0')}초`;
+        cdElem.style.color = days <= 3 ? "var(--danger)" : "var(--primary-dark)";
+      }
+    }
+
+    function setMType(t) {
+      mType = t;
+      ["in", "out", "shop"].forEach(function(x) {
+        var map = { in: "수입", out: "지출", shop: "소비" };
+        var btn = document.getElementById("bm-" + x);
+        if (btn) {
+          if (map[x] === t) btn.classList.add("btn-active");
+          else btn.classList.remove("btn-active");
+        }
+      });
+    }
+
+    /* ================= 영수증 확정 및 수동 장부 (단비 전용) ================= */
+    function subManual() {
+      if (loginUser !== "단비") {
+        alert("🔒 영수증 확정 및 수동 장부 기입은 단비 계정만 가능합니다.");
+        return;
+      }
+
+      var desc = document.getElementById("m-desc").value.trim();
+      var amt = Number(document.getElementById("m-amt").value);
+
+      if (!desc || amt <= 0) {
+        alert("내역 설명과 올바른 금액을 입력하세요.");
+        return;
+      }
+
+      addLedgerEntry("성우", mType, "💳 영수증확정: " + desc, amt);
+      document.getElementById("m-desc").value = "";
+      document.getElementById("m-amt").value = "";
+      rLedger();
+      alert("단비 권한으로 영수증 내역이 기록되었습니다.");
+    }
+
+    function purShop(itemId, optionName) {
+      var item = shopItems.find(function(x) { return x.id === itemId; });
+      if (!item) return;
+
+      var swPts = users["성우"] ? users["성우"].pts : 0;
+      if (swPts < item.price) {
+        alert("포인트가 부족하여 구매할 수 없습니다.");
+        return;
+      }
+
+      addLedgerEntry("성우", "소비", "🛒 상점 직구 (" + item.name + " - " + optionName + ")", item.price);
+      alert("[" + item.name + " (" + optionName + ")] 구매 완료!");
+      rLedger();
+    }
+
+    function updateResOptions() {
+      var itemSelect = document.getElementById("res-item-select");
+      var optSelect = document.getElementById("res-option-select");
+      if (!itemSelect || !optSelect) return;
+
+      var itemId = itemSelect.value;
+      optSelect.innerHTML = "";
+      var item = shopItems.find(function(x) { return x.id === itemId; });
+      if (item && item.options) {
+        item.options.forEach(function(o) {
+          optSelect.innerHTML += '<option value="' + o + '">' + o + '</option>';
+        });
+      }
+    }
+
+    function submitReservation() {
+      var itemSelect = document.getElementById("res-item-select");
+      var optSelect = document.getElementById("res-option-select");
+      var reasonText = document.getElementById("res-reason").value.trim();
+
+      if (!itemSelect.value) {
+        alert("예약할 상품을 선택하세요.");
+        return;
+      }
+      if (!reasonText) {
+        alert("예약 사유(이유)를 적어주세요.");
+        return;
+      }
+
+      var item = shopItems.find(function(x) { return x.id === itemSelect.value; });
+      if (!item) return;
+
+      reservations.unshift({
+        id: "RES_" + Date.now(),
+        user: loginUser,
+        itemId: item.id,
+        itemName: item.name,
+        price: item.price,
+        option: optSelect.value || "기본",
+        reason: reasonText,
+        status: "pending",
+        date: selectedDate
+      });
+
+      document.getElementById("res-reason").value = "";
+      saveD();
+      rReservation();
+      alert("예약 신청이 성공적으로 제출되었습니다!");
+    }
+
+    function approveReservation(resId) {
+      var res = reservations.find(function(x) { return x.id === resId; });
+      if (!res) return;
+
+      var swPts = users["성우"] ? users["성우"].pts : 0;
+      if (swPts < res.price) {
+        alert("성우의 포인트가 부족하여 승인할 수 없습니다.");
+        return;
+      }
+
+      res.status = "approved";
+      addLedgerEntry("성우", "소비", "📅 예약 승인 구매 (" + res.itemName + " - " + res.option + ")", res.price);
+      saveD();
+      rReservation();
+      rLedger();
+      alert("예약을 승인하고 포인트를 결제 처리했습니다.");
+    }
+
+    function rejectReservation(resId) {
+      var res = reservations.find(function(x) { return x.id === resId; });
+      if (!res) return;
+
+      res.status = "rejected";
+      saveD();
+      rReservation();
+      alert("예약 신청이 반려 처리되었습니다.");
+    }
+
+    // 예약 내역 삭제 기능 (단비 전용)
+    function deleteReservation(resId) {
+      if (loginUser !== "단비") {
+        alert("🔒 예약 내역 삭제는 단비 계정에서만 가능합니다.");
+        return;
+      }
+      if (!confirm("해당 예약 내역을 완전히 삭제하시겠습니까?")) return;
+      reservations = reservations.filter(function(x) { return x.id !== resId; });
+      saveD();
+      rReservation();
+      alert("예약 내역이 삭제되었습니다.");
+    }
+
+    function addQ() {
+      var type = document.getElementById("ad-q-type").value;
+      var text = document.getElementById("ad-q-text").value.trim();
+      var points = Number(document.getElementById("ad-q-pts").value);
+      var deadline = document.getElementById("ad-q-deadline").value;
+
+      if (!text || points <= 0) {
+        alert("퀘스트 내용과 포인트를 확인해 주세요.");
+        return;
+      }
+
+      quests.push({
+        id: "Q_" + Date.now(),
+        type: type,
+        text: text,
+        points: points,
+        dateCreated: selectedDate,
+        deadline: deadline || ""
+      });
+
+      document.getElementById("ad-q-text").value = "";
+      document.getElementById("ad-q-deadline").value = "";
+      saveD();
+      rAll();
+      alert("선택한 카테고리에 퀘스트가 정상 추가되었습니다.");
+    }
+
+    function addC() {
+      var text = document.getElementById("ad-c-text").value.trim();
+      var points = Number(document.getElementById("ad-c-pts").value);
+      if (!text) return;
+
+      combos.push({ id: "C_" + Date.now(), text: text, points: points });
+      document.getElementById("ad-c-text").value = "";
+      saveD();
+      rAll();
+    }
+
+    function addS() {
+      var name = document.getElementById("ad-s-name").value.trim();
+      var price = Number(document.getElementById("ad-s-price").value);
+      var optStr = document.getElementById("ad-s-opts").value.trim();
+      if (!name) return;
+
+      var opts = optStr ? optStr.split(",").map(function(x) { return x.trim(); }) : ["기본"];
+      shopItems.push({ id: "S_" + Date.now(), name: name, price: price, options: opts });
+
+      document.getElementById("ad-s-name").value = "";
+      document.getElementById("ad-s-opts").value = "";
+      saveD();
+      rAll();
+    }
+
+    function addP() {
+      var name = document.getElementById("ad-p-name").value.trim();
+      var price = Number(document.getElementById("ad-p-price").value);
+      if (!name) return;
+
+      penalties.push({ id: "P_" + Date.now(), name: name, price: price });
+      document.getElementById("ad-p-name").value = "";
+      saveD();
+      rAll();
+    }
+
+    function delItem(type, id) {
+      if (type === 'q') quests = quests.filter(function(x) { return x.id !== id; });
+      if (type === 'c') combos = combos.filter(function(x) { return x.id !== id; });
+      if (type === 's') shopItems = shopItems.filter(function(x) { return x.id !== id; });
+      if (type === 'p') penalties = penalties.filter(function(x) { return x.id !== id; });
+      saveD();
+      rAll();
+    }
+
+    function appBg() {
+      var url = document.getElementById("ad-bg-url").value.trim();
+      if (!url) return;
+      cBg = url;
+      document.body.style.backgroundImage = "url('" + url + "')";
+      saveD();
+    }
+
+    function clrBg() {
+      cBg = "";
+      document.body.style.backgroundImage = "none";
+      document.getElementById("ad-bg-url").value = "";
+      saveD();
+    }
+
+    function chTheme(mode) {
+      if (mode === 'slate') {
+        document.body.style.backgroundColor = "#f8fafc";
+        document.body.style.color = "#1e293b";
+      } else if (mode === 'pink') {
+        document.body.style.backgroundColor = "#fdf2f8";
+        document.body.style.color = "#831843";
+      } else if (mode === 'dark') {
+        document.body.style.backgroundColor = "#0f172a";
+        document.body.style.color = "#f8fafc";
+      }
+    }
+
+    function chDate() {
+      selectedDate = document.getElementById("sys-dt").value;
+      saveD();
+      checkSch();
+      rAll();
+    }
+
+    /* 하단 바 렌더링 (성우의 포인트 계좌 잔고 표시) */
+    function uFooter() {
+      var el = document.getElementById("f-pts");
+      if (el) {
+        var swPts = users["성우"] ? users["성우"].pts : 0;
+        el.innerText = swPts.toLocaleString() + " p";
+      }
+    }
+
+    function rQuests() {
+      document.getElementById("tl-dt").innerText = "기준일자: " + selectedDate;
+      document.getElementById("danbi-ref-date-display").innerText = danbiDate;
+      document.getElementById("current-view-display").innerText = "[조회일: " + selectedDate + "]";
+      document.getElementById("danbi-date-control").style.display = loginUser === "단비" ? "flex" : "none";
+
+      // 1. 승인 요청 목록 (퀘스트 / 차감 / 대출 통합)
+      var apprListEl = document.getElementById("approval-list");
+      document.getElementById("pending-count").innerText = pendingApprovals.length;
+      if (apprListEl) {
+        apprListEl.innerHTML = "";
+        if (pendingApprovals.length === 0) {
+          apprListEl.innerHTML = '<div class="empty-state" style="background:white;">대기 중인 승인 요청이 없습니다.</div>';
+        } else {
+          pendingApprovals.forEach(function(appr) {
+            var isDanbi = loginUser === "단비";
+            var actionBtns = isDanbi ? 
+              '<div style="display:flex; gap:4px;">' +
+                '<button onclick="handleApproval(\'' + appr.id + '\', true)" class="btn btn-sm btn-primary">승인</button>' +
+                '<button onclick="handleApproval(\'' + appr.id + '\', false)" class="btn btn-sm btn-danger">거절</button>' +
+              '</div>' : '<span style="font-size:11px; font-weight:bold; color:#d97706;">검토 대기중</span>';
+
+            var typeBadge = "";
+            var amtText = "";
+            if (appr.type === "penalty") {
+              typeBadge = '<span style="font-size:10px; padding:2px 6px; background:#fee2e2; color:#b91c1c; border-radius:4px; font-weight:bold; margin-right:4px;">차감</span>';
+              amtText = '<span style="font-weight:900; color:#dc2626;">-' + (appr.reward || appr.amount) + 'p</span>';
+            } else if (appr.type === "loan") {
+              typeBadge = '<span style="font-size:10px; padding:2px 6px; background:#e0f2fe; color:#0369a1; border-radius:4px; font-weight:bold; margin-right:4px;">대출</span>';
+              amtText = '<span style="font-weight:900; color:#0284c7;">+' + (appr.amount || appr.reward) + 'p</span>';
+            } else {
+              typeBadge = '<span style="font-size:10px; padding:2px 6px; background:#d1fae5; color:#047857; border-radius:4px; font-weight:bold; margin-right:4px;">퀘스트</span>';
+              amtText = '<span style="font-weight:900; color:#10b981;">+' + appr.reward + 'p</span>';
+            }
+
+            apprListEl.innerHTML += '<div class="flex-row-item" style="background:white; border-color:#fef08a;">' +
+              '<div>' +
+                '<div style="font-weight:bold; color:#1e293b;">' + typeBadge + '[' + appr.user + '] ' + appr.title + ' (' + amtText + ')</div>' +
+                '<div style="font-size:10px; color:#64748b;">요청일자: ' + appr.date + '</div>' +
+              '</div>' +
+              actionBtns +
+            '</div>';
+          });
+        }
+      }
+
+      // 2. 퀘스트 목록 렌더링
+      var qContainer = document.getElementById("q-box");
+      if (!qContainer) return;
+      qContainer.innerHTML = "";
+
+      var curWk = getWk(selectedDate);
+      var categories = [
+        { type: "daily", title: "📌 일일 퀘스트 (고정)" },
+        { type: "weekly", title: "⏳ 주간 퀘스트" },
+        { type: "special", title: "✨ 특별 퀘스트" }
+      ];
+
+      categories.forEach(function(cat) {
+        var filtered = quests.filter(function(q) {
+          if (q.deadline && q.deadline < selectedDate) return false;
+          if (q.type !== cat.type) return false;
+          if (q.type === "weekly") return getWk(q.dateCreated) === curWk;
+          return true;
+        });
+
+        var html = '<div class="quest-section-title"><span>' + cat.title + '</span></div>';
+
+        if (filtered.length === 0) {
+          html += '<div class="empty-state">등록된 퀘스트가 없습니다.</div>';
+        } else {
+          filtered.forEach(function(q) {
+            var isPending = pendingApprovals.some(function(p) { return p.questId === q.id && p.date === selectedDate && p.user === loginUser; });
+            var key = q.id + "_" + selectedDate + "_" + loginUser;
+            var isDone = !!questCompletions[key];
+
+            var actionWidget = '';
+            if (isDone) {
+              actionWidget = '<span style="font-size:11px; font-weight:bold; color:#059669; background:#d1fae5; padding:3px 8px; border-radius:6px;">완료됨</span>';
+            } else if (isPending) {
+              actionWidget = '<span style="font-size:11px; font-weight:bold; color:#b45309; background:#fef3c7; padding:3px 8px; border-radius:6px;">승인 대기중</span>';
+            } else {
+              actionWidget = '<button onclick="requestApproval(\'' + q.id + '\')" class="btn btn-sm btn-success">완료 체크</button>';
+            }
+
+            var deadlineInfo = q.deadline ? '<span style="font-size:10px; color:#ef4444; margin-left:6px;">[기한: ' + q.deadline + ']</span>' : '';
+
+            html += '<div class="flex-row-item">' +
+              '<div>' +
+                '<span style="font-weight:bold;' + (isDone ? 'text-decoration:line-through; color:#94a3b8;' : '') + '">' + q.text + '</span>' +
+                deadlineInfo +
+              '</div>' +
+              '<div style="display:flex; align-items:center; gap:8px;">' +
+                '<span style="font-weight:900; color:#2563eb;">+' + q.points + 'p</span>' +
+                actionWidget +
+              '</div>' +
+            '</div>';
+          });
+        }
+        qContainer.innerHTML += html;
+      });
+
+      document.getElementById("cb-box").innerHTML = 
+        '<span>🔥 성우 미션 연속 달성 콤보</span>' +
+        '<span>성우: ' + (comboCount["성우"]||0) + ' 스택</span>';
+
+      document.getElementById("g-panel").classList.toggle("hidden", loginUser !== "단비");
+      var gBox = document.getElementById("g-box");
+      if (gBox) {
+        gBox.innerHTML = "";
+        if (combos.length === 0) {
+          gBox.innerHTML = '<div class="empty-state">개설된 수동 보상 항목이 없습니다.</div>';
+        } else {
+          combos.forEach(function(c) {
+            gBox.innerHTML += '<div class="flex-row-item">' +
+              '<span>' + c.text + ' (+' + c.points + 'p)</span>' +
+              '<button onclick="awardManualCombo(\'' + c.id + '\')" class="btn btn-sm btn-rose">성우에게 지급</button>' +
+            '</div>';
+          });
+        }
+      }
+
+      // 3. 차감 패널티 체크리스트 (성우 체크 시 단비 승인 요청)
+      var pBox = document.getElementById("p-box");
+      if (pBox) {
+        pBox.innerHTML = "";
+        if (penalties.length === 0) {
+          pBox.innerHTML = '<div class="empty-state">설정된 감점 규칙이 없습니다.</div>';
+        } else {
+          penalties.forEach(function(p) {
+            var targetU = "성우";
+            var key = p.id + "_" + selectedDate + "_" + targetU;
+            var isDone = !!penaltyCompletions[key];
+            var isPending = pendingApprovals.some(function(appr) {
+              return appr.penaltyId === p.id && appr.date === selectedDate && appr.user === targetU;
+            });
+
+            var actionBtn = "";
+            if (isDone) {
+              actionBtn = '<span style="font-size:11px; font-weight:bold; color:#dc2626; background:#fee2e2; padding:3px 8px; border-radius:6px;">차감 완료</span>';
+            } else if (isPending) {
+              actionBtn = '<span style="font-size:11px; font-weight:bold; color:#b45309; background:#fef3c7; padding:3px 8px; border-radius:6px;">승인 대기중</span>';
+            } else {
+              if (loginUser === "성우") {
+                actionBtn = '<button onclick="requestPenaltyApproval(\'' + p.id + '\')" class="btn btn-sm btn-danger">차감 승인 요청</button>';
+              } else {
+                actionBtn = '<button onclick="requestPenaltyApproval(\'' + p.id + '\')" class="btn btn-sm btn-danger">차감 적용</button>';
+              }
+            }
+
+            pBox.innerHTML += '<div class="flex-row-item">' +
+              '<div style="display:flex; align-items:center; gap:8px;">' +
+                '<span style="font-weight:bold; color:var(--danger);">' + p.name + '</span>' +
+              '</div>' +
+              '<div style="display:flex; align-items:center; gap:8px;">' +
+                '<span style="font-weight:900; color:var(--danger);">-' + p.price + 'p</span>' +
+                actionBtn +
+              '</div>' +
+            '</div>';
+          });
+        }
+      }
+    }
+
+    function rLedger() {
+      var filterSelect = document.getElementById("l-filter");
+      var filter = filterSelect ? filterSelect.value : "전체";
+      var container = document.getElementById("l-box");
+      if (!container) return;
+      container.innerHTML = "";
+
+      var filtered = ledger.filter(function(l) {
+        if (filter === "수입") return l.category === "수입";
+        if (filter === "지출") return l.category === "지출" || l.category === "소비";
+        return true;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = '<div class="empty-state">장부 거래 기록이 없습니다.</div>';
+      } else {
+        filtered.forEach(function(l) {
+          var badgeClass = l.category === "수입" ? "badge-in" : (l.category === "지출" ? "badge-out" : "badge-shop");
+          var changeSign = l.category === "수입" ? "+" : "-";
+
+          // 가계부 삭제 버튼은 단비 계정 로그인 시에만 노출
+          var deleteBtnHtml = (loginUser === "단비") 
+            ? '<button onclick="deleteLedgerEntry(\'' + l.id + '\')" class="btn btn-sm btn-danger" style="padding:2px 6px; font-size:10px;">삭제</button>' 
+            : '';
+
+          container.innerHTML += '<div style="padding:10px 12px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; font-size:12px;">' +
+            '<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">' +
+              '<span style="font-size:10px; color:#64748b;">' + l.date + '</span>' +
+              '<div style="display:flex; align-items:center; gap:6px;">' +
+                '<span class="ledger-badge ' + badgeClass + '">' + l.category + '</span>' +
+                deleteBtnHtml +
+              '</div>' +
+            '</div>' +
+            '<div style="font-weight:bold; margin-bottom:4px; font-size:13px;">' + l.desc + '</div>' +
+            '<div style="font-size:11px; color:#475569; display:flex; justify-content:space-between;">' +
+              '<span>이전: ' + l.before.toLocaleString() + 'p</span>' +
+              '<span style="font-weight:bold; color:' + (l.category==='수입'?'#059669':'#dc2626') + ';">' + changeSign + l.change.toLocaleString() + 'p</span>' +
+              '<span style="font-weight:bold;">잔액: ' + l.after.toLocaleString() + 'p</span>' +
+            '</div>' +
+          '</div>';
+        });
+      }
+
+      // 수동 장부 / 영수증 확정 단비 권한 설정 (성우는 비활성화)
+      var isDanbi = (loginUser === "단비");
+      var mDesc = document.getElementById("m-desc");
+      var mAmt = document.getElementById("m-amt");
+      var btnSub = document.getElementById("btn-manual-sub");
+      var bmIn = document.getElementById("bm-in");
+      var bmOut = document.getElementById("bm-out");
+      var bmShop = document.getElementById("bm-shop");
+
+      if (mDesc) mDesc.disabled = !isDanbi;
+      if (mAmt) mAmt.disabled = !isDanbi;
+      if (btnSub) {
+        btnSub.disabled = !isDanbi;
+        btnSub.innerText = isDanbi ? "영수증 확정 및 저장" : "🔒 영수증 확정은 단비만 가능";
+      }
+      if (bmIn) bmIn.disabled = !isDanbi;
+      if (bmOut) bmOut.disabled = !isDanbi;
+      if (bmShop) bmShop.disabled = !isDanbi;
+
+      // 단비 전용 지출 영수증 기록 섹션
+      var receiptSec = document.getElementById("receipt-section");
+      if (receiptSec) {
+        if (loginUser !== "단비") {
+          receiptSec.style.display = "none";
+        } else {
+          receiptSec.style.display = "block";
+          var receiptListEl = document.getElementById("receipt-list");
+          var dayReceipts = ledger.filter(function(l) { return l.date === selectedDate && (l.category === "지출" || l.category === "소비"); });
+          
+          if (dayReceipts.length === 0) {
+            receiptListEl.innerHTML = '<div class="empty-state">이 날짜의 지출 내역이 없습니다.</div>';
+          } else {
+            receiptListEl.innerHTML = "";
+            dayReceipts.forEach(function(r) {
+              receiptListEl.innerHTML += '<div style="display:flex; justify-content:space-between; font-size:12px; padding:6px 0; border-bottom:1px solid #f1f5f9;">' +
+                '<span style="color:#475569;">[' + r.user + '] ' + r.desc + '</span>' +
+                '<span style="font-weight:bold; color:#7e22ce;">-' + r.change.toLocaleString() + ' p</span>' +
+              '</div>';
+            });
+          }
+        }
+      }
+    }
+
+    function rLoan() {
+      var statusEl = document.getElementById("loan-status");
+      var sumEl = document.getElementById("loan-summary-detail");
+      var actionEl = document.getElementById("ln-action");
+      if (!statusEl || !actionEl) return;
+
+      var uLoan = loans["성우"];
+      var currentWk = getWk(selectedDate);
+      var isPendingLoan = pendingApprovals.some(function(p) {
+        return p.type === 'loan';
+      });
+
+      if (uLoan && uLoan.isActive) {
+        var elapsedWeeks = Math.max(1, currentWk - uLoan.startWeek);
+        var totalInterest = Math.ceil(uLoan.amount / 10) * 3 * elapsedWeeks;
+        var totalDebt = uLoan.amount + totalInterest;
+        var remainingDebt = totalDebt - uLoan.paid;
+
+        statusEl.innerText = remainingDebt.toLocaleString() + " p";
+        sumEl.innerHTML = 
+          '• 차용 원금: ' + uLoan.amount.toLocaleString() + 'p<br>' +
+          '• 누적 이자: ' + totalInterest.toLocaleString() + 'p<br>' +
+          '• 총 약정 채무액: ' + totalDebt.toLocaleString() + 'p<br>' +
+          '• 부여 채무 기한: ' + (uLoan.totalWeeks || 4) + '주 (원금 100p당 4주)';
+
+        actionEl.innerHTML = '<div style="display:flex; flex-direction:column; gap:6px;">' +
+          '<input type="number" id="repay-input-amount" placeholder="상환할 포인트" min="1" max="' + remainingDebt + '" />' +
+          '<button onclick="exRepay()" class="btn btn-primary" style="width:100%;">상환금 납부 (승인 불필요)</button>' +
+        '</div>';
+      } else if (isPendingLoan) {
+        statusEl.innerText = "승인 대기중";
+        sumEl.innerHTML = '• 단비의 대출 승인을 기다리고 있습니다.';
+        actionEl.innerHTML = '<div style="font-size:12px; color:#b45309; text-align:center; padding:10px; background:#fef3c7; border-radius:8px; font-weight:bold;">⏳ 단비 대출 승인 대기 중...</div>';
+      } else {
+        statusEl.innerText = "0 p";
+        sumEl.innerHTML = '• 원금 100p당 4주(28일) 기한 적용<br>• 10p당 주당 3p 이자 적용<br>• 성우 대출 신청 시 단비 승인 필요';
+
+        actionEl.innerHTML = '<div style="display:flex; flex-direction:column; gap:6px;">' +
+          '<input type="number" id="loan-input-amount" placeholder="대출 포인트 (최소 10p)" min="10" />' +
+          '<button onclick="exLoan()" class="btn btn-rose" style="width:100%;">신용 대출 신청 (단비 승인)</button>' +
+        '</div>';
+      }
+      updateCountdowns();
+    }
+
+    function renderS() {
+      var container = document.getElementById("s-box");
+      if (!container) return;
+      container.innerHTML = "";
+
+      if (shopItems.length === 0) {
+        container.innerHTML = '<div class="empty-state" style="grid-column: 1/-1;">등록된 상점 물품이 없습니다.</div>';
+        return;
+      }
+
+      shopItems.forEach(function(item) {
+        var optHtml = "";
+        item.options.forEach(function(o) {
+          optHtml += '<button onclick="purShop(\'' + item.id + '\', \'' + o + '\')" class="btn btn-sm" style="text-align:left; background:white;">📍 ' + o + '</button>';
+        });
+
+        container.innerHTML += '<div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:12px; padding:14px; display:flex; flex-direction:column; justify-content:space-between; gap:10px;">' +
+          '<div>' +
+            '<div style="font-size:15px; font-weight:900; color:#1e293b; margin-bottom:2px;">' + item.name + '</div>' +
+            '<div style="font-size:16px; font-weight:900; color:#d97706;">' + item.price.toLocaleString() + ' p</div>' +
+          '</div>' +
+          '<div style="display:flex; flex-direction:column; gap:4px;">' + optHtml + '</div>' +
+        '</div>';
+      });
+    }
+
+    function rReservation() {
+      var itemSelect = document.getElementById("res-item-select");
+      if (itemSelect) {
+        itemSelect.innerHTML = "";
+        shopItems.forEach(function(item) {
+          itemSelect.innerHTML += '<option value="' + item.id + '">' + item.name + ' (' + item.price + 'p)</option>';
+        });
+        updateResOptions();
+      }
+
+      var listContainer = document.getElementById("res-list-box");
+      if (!listContainer) return;
+      listContainer.innerHTML = "";
+
+      if (reservations.length === 0) {
+        listContainer.innerHTML = '<div class="empty-state">신청된 예약이 없습니다.</div>';
+        return;
+      }
+
+      reservations.forEach(function(res) {
+        var statusBadge = '';
+        if (res.status === 'pending') statusBadge = '<span class="status-badge status-pending">승인 대기</span>';
+        else if (res.status === 'approved') statusBadge = '<span class="status-badge status-approved">승인 완료</span>';
+        else if (res.status === 'rejected') statusBadge = '<span class="status-badge status-rejected">반려됨</span>';
+
+        // 단비 계정 제어 버튼 (반려된 것을 포함해 상태에 관계없이 삭제 권한 부여)
+        var adminButtons = '';
+        if (loginUser === '단비') {
+          adminButtons = '<div style="display:flex; gap:6px; margin-top:8px;">';
+          if (res.status === 'pending') {
+            adminButtons += '<button onclick="approveReservation(\'' + res.id + '\')" class="btn btn-sm btn-success">승인 및 차감</button>' +
+              '<button onclick="rejectReservation(\'' + res.id + '\')" class="btn btn-sm btn-warning">반려</button>';
+          }
+          adminButtons += '<button onclick="deleteReservation(\'' + res.id + '\')" class="btn btn-sm btn-danger">삭제</button>';
+          adminButtons += '</div>';
+        }
+
+        listContainer.innerHTML += '<div style="padding:12px; background:#ffffff; border:1px solid #e2e8f0; border-radius:10px;">' +
+          '<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">' +
+            '<span style="font-weight:bold; font-size:13px; color:#1e293b;">[' + res.user + '] ' + res.itemName + ' (' + res.option + ') - ' + res.price + 'p</span>' +
+            statusBadge +
+          '</div>' +
+          '<div style="font-size:12px; color:#475569; background:#f8fafc; padding:8px; border-radius:6px; margin-bottom:4px;">' +
+            '<strong>사유:</strong> ' + res.reason +
+          '</div>' +
+          '<div style="font-size:10px; color:#94a3b8; text-align:right;">신청일: ' + res.date + '</div>' +
+          adminButtons +
+        '</div>';
+      });
+    }
+
+    function rMyPage() {
+      var adminSwBox = document.getElementById("admin-sw-pw-box");
+      if (adminSwBox) {
+        if (loginUser === "단비") {
+          adminSwBox.classList.remove("hidden");
+          document.getElementById("sw-current-pw-display").innerText = users["성우"] ? users["성우"].pw : "설정 안됨";
+        } else {
+          adminSwBox.classList.add("hidden");
+        }
+      }
+    }
+
+    function rAdmin() {
+      if (loginUser !== "단비") return;
+
+      var qList = document.getElementById("ad-q-list");
+      if (qList) {
+        qList.innerHTML = "";
+        quests.forEach(function(x) {
+          qList.innerHTML += '<div class="flex-row-item" style="padding:6px 12px;">' +
+            '<span>[' + x.type + '] ' + x.text + ' (' + x.points + 'p) ' + (x.deadline ? '기한:' + x.deadline : '') + '</span>' +
+            '<button onclick="delItem(\'q\', \'' + x.id + '\')" class="btn btn-sm btn-danger">삭제</button>' +
+          '</div>';
+        });
+      }
+
+      var cList = document.getElementById("ad-c-list");
+      if (cList) {
+        cList.innerHTML = "";
+        combos.forEach(function(x) {
+          cList.innerHTML += '<div class="flex-row-item" style="padding:6px 12px;">' +
+            '<span>' + x.text + ' (+' + x.points + 'p)</span>' +
+            '<button onclick="delItem(\'c\', \'' + x.id + '\')" class="btn btn-sm btn-danger">삭제</button>' +
+          '</div>';
+        });
+      }
+
+      var sList = document.getElementById("ad-s-list");
+      if (sList) {
+        sList.innerHTML = "";
+        shopItems.forEach(function(x) {
+          sList.innerHTML += '<div class="flex-row-item" style="padding:6px 12px;">' +
+            '<span>' + x.name + ' (' + x.price + 'p)</span>' +
+            '<button onclick="delItem(\'s\', \'' + x.id + '\')" class="btn btn-sm btn-danger">삭제</button>' +
+          '</div>';
+        });
+      }
+
+      var pList = document.getElementById("ad-p-list");
+      if (pList) {
+        pList.innerHTML = "";
+        penalties.forEach(function(x) {
+          pList.innerHTML += '<div class="flex-row-item" style="padding:6px 12px;">' +
+            '<span>' + x.name + ' (-' + x.price + 'p)</span>' +
+            '<button onclick="delItem(\'p\', \'' + x.id + '\')" class="btn btn-sm btn-danger">삭제</button>' +
+          '</div>';
+        });
+      }
+    }
+
+    function rAll() {
+      // 성우 포인트 수동 수정 버튼은 단비 전용으로만 노출
+      var pointModalBtn = document.getElementById("btn-point-modal");
+      if (pointModalBtn) {
+        pointModalBtn.style.display = (loginUser === "단비") ? "inline-flex" : "none";
+      }
+
+      rQuests();
+      rLedger();
+      rLoan();
+      renderS();
+      rReservation();
+      rMyPage();
+      rAdmin();
+      uFooter();
+    }
+
+    window.onload = function() {
+      loadD();
+      if (!loginUser) {
+        showLoginPage();
+      } else {
+        showDashboard();
+      }
+      setInterval(updateCountdowns, 1000);
+    };
+  </script>
+</body>
+</html>
